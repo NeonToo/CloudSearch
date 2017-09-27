@@ -2,15 +2,15 @@
     <div>
         <x-header></x-header>
         <main id="home-main-container">
-            <img src="./images/logo.png">
+            <img src="../images/logo.png">
             <search-bar></search-bar>
         </main>
     </div>
 </template>
 
 <script>
-    import Header from './components/header/Header.vue';
-    import SearchBar from './components/search/SearchBar.vue';
+    import Header from '../components/header/Header.vue';
+    import SearchBar from '../components/search/SearchBar.vue';
 
     export default {
         components: {

@@ -14,7 +14,10 @@ module.exports = webpackMerge(commonConfig, {
         hotOnly: true,
         historyApiFallback: true,
         proxy: {
-            // "/": "http://localhost:3000"
+            "/searchpp": {
+                target: "http://118.190.201.165:8081/searchpp",
+                changeOrigin: true
+            }
         }
     },
     watchOptions: {

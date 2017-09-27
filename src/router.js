@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import App from './App.vue';
+import Home from './views/Home.vue';
 import SearchResults from './views/SearchResults.vue';
 import MindMap from './views/MindMap.vue';
 
@@ -10,7 +10,7 @@ let routes = [
     {
         path: '/',
         name: 'app',
-        component: App,
+        component: Home,
         meta: {title: 'Cloud Search'}
     },
     {

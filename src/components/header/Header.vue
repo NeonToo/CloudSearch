@@ -1,19 +1,20 @@
 <template>
     <header id="header">
-        <!--<div>-->
-            <!--<a href="">Logo</a>-->
-        <!--</div>-->
-        <div></div>
-        <nav>
-            <ul>
-                <li class="nav-item">
-                    <x-button type="primary">登录</x-button>
-                </li>
-                <li class="nav-item">
-                    <x-button>注册</x-button>
-                </li>
-            </ul>
-        </nav>
+        <slot name="left">
+            <div></div>
+        </slot>
+        <slot name="right">
+            <nav>
+                <ul>
+                    <li class="nav-item">
+                        <x-button css="primary">登录</x-button>
+                    </li>
+                    <li class="nav-item">
+                        <x-button>注册</x-button>
+                    </li>
+                </ul>
+            </nav>
+        </slot>
     </header>
 </template>
 
@@ -37,6 +38,8 @@
         right: 0;
         left: 0;
         z-index: 1000;
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
     }
 
     header ul {

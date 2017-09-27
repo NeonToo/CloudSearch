@@ -1,26 +1,71 @@
 <template>
     <div>
-        <form action="http://118.190.201.165:8080/searchpp/search">
-            <input type="text" class="search-input" name="key" placeholder="搜索" autocomplete="off">
-            <x-button class="search-btn" type="primary">搜索</x-button>
-            <!--<button type="submit">搜索</button>-->
+        <form @submit.prevent="search">
+            <select-field :options="options"></select-field>
+            <input type="text" class="search-input" v-model="key" placeholder="搜索" autocomplete="off"
+                   :style="{width: inputWidth + 'px'}">
+            <x-button type="submit" class="search-btn" css="primary">搜索</x-button>
         </form>
     </div>
 </template>
 
 <script>
+    import SelectField from './../select/SelectField.vue';
     import Button from './../button/Button.vue';
 
     export default {
+        props: {
+            inputWidth: {
+                type: Number,
+                default: 500
+            }
+        },
         components: {
+            SelectField,
             'x-button': Button
+        },
+        data() {
+            return {
+                options: [
+                    {
+                        label: '思维导图',
+                        selected: true,
+                        type: 'map'
+                    },
+                    {
+                        label: '关键词',
+                        selected: false,
+                        type: 'keyword'
+                    }
+                ],
+                key: ''
+            }
+        },
+        methods: {
+            search() {
+                if (this.key) {
+                    const searchType = this.$store.state.searchType;
+
+                    if (searchType === 'map') { // mind-map search
+                        this.$router.push({
+                            path: '/map'
+                        });
+                    } else { // keyword search
+                        this.$router.push({
+                            path: '/results',
+                            query: {
+                                key: this.key
+                            }
+                        });
+                    }
+                }
+            }
         }
     }
 </script>
 
 <style>
     .search-input {
-        width: 500px;
         padding: 10px 5px;
     }
 

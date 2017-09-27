@@ -1,19 +1,22 @@
 <template>
-    <div class="ui container">
-        <div class="ui segment">
-            <div id="graph">
-                <!--<svg id="svg" :width="730" :height="540">-->
-                <!--<g></g>-->
-                <!--</svg>-->
-            </div>
-        </div>
+    <div>
+        <x-header>
+            <search-bar slot="left"></search-bar>
+        </x-header>
+        <main id="graph"></main>
     </div>
 </template>
 
 <script>
     import * as d3 from 'd3';
+    import Header from './../components/header/Header.vue';
+    import SearchBar from './../components/search/SearchBar.vue';
 
     export default {
+        components: {
+            'x-header': Header,
+            SearchBar
+        },
         data() {
             return {
                 margin: {
@@ -22,8 +25,8 @@
                     bottom: 20,
                     left: 80
                 },
-                width: 600,
-                height: 500,
+                width: 1500,
+                height: 1200,
                 root: null,
                 svg: null,
                 tree: null,
@@ -41,7 +44,6 @@
                     .attr("height", this.height + this.margin.top + this.margin.bottom)
                     .append("g")
                     .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
-//                this.svg = d3.select("#svg");
                 // 树状图布局
                 this.tree = d3.layout.tree().size([this.height, this.width]);
                 // 对角线生成器
@@ -49,130 +51,518 @@
                     return [d.y, d.x];
                 });
                 this.root = {
-                    "name": "如何学习D3",
+                    "name": "便利店",
                     "children": [
                         {
-                            "name": "预备知识",
+                            "name": "基本信息",
                             "children": [
                                 {
-                                    "name": "HTML & CSS"
+                                    "name": "定义",
+                                    "children": [
+                                        {
+                                            "name": "便利店",
+                                            "children": [
+                                                {
+                                                    "name": "无人便利店",
+                                                    "children": [
+                                                        {
+                                                            "name": "无人售货机"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 },
                                 {
-                                    "name": "JavaScript"
+                                    "name": "特点",
+                                    "children": [
+                                        {
+                                            "name": "精简SKU"
+                                        },
+                                        {
+                                            "name": "极致便利",
+                                            "children": [
+                                                {
+                                                    "name": "距离便利",
+                                                    "children": [
+                                                        {
+                                                            "name": "布点较多"
+                                                        },
+                                                        {
+                                                            "name": "辐射半径"
+                                                        },
+                                                        {
+                                                            "name": "选址地点"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "时间便利",
+                                                    "children": [
+                                                        {
+                                                            "name": "24小时便利店",
+                                                            "children": [
+                                                                {
+                                                                    "name": "711"
+                                                                },
+                                                                {
+                                                                    "name": "全家"
+                                                                },
+                                                                {
+                                                                    "name": "好德"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "非24小时便利店",
+                                                            "children": [
+                                                                {
+                                                                    "name": "红旗超市"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "营业时间灵活"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "商品的便利性"
+                                                },
+                                                {
+                                                    "name": "交易的便利性"
+                                                },
+                                                {
+                                                    "name": "服务的便利性",
+                                                    "children": [
+                                                        {
+                                                            "name": "零售服务"
+                                                        },
+                                                        {
+                                                            "name": "公共服务"
+                                                        },
+                                                        {
+                                                            "name": "金融服务"
+                                                        },
+                                                        {
+                                                            "name": "健康服务"
+                                                        },
+                                                        {
+                                                            "name": "其他特色服务"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "小型化"
+                                        },
+                                        {
+                                            "name": "高毛利"
+                                        }
+                                    ]
                                 },
                                 {
-                                    "name": "DOM"
+                                    "name": "重大变革",
+                                    "children": [
+                                        {
+                                            "name": "商品结构"
+                                        },
+                                        {
+                                            "name": "成本"
+                                        },
+                                        {
+                                            "name": "互联网"
+                                        },
+                                        {
+                                            "name": "加盟比例"
+                                        },
+                                        {
+                                            "name": "移动支付"
+                                        },
+                                        {
+                                            "name": "新零售"
+                                        },
+                                        {
+                                            "name": "人工智能"
+                                        }
+                                    ]
                                 },
                                 {
-                                    "name": "SVG"
+                                    "name": "发展历程",
+                                    "children": [
+                                        {
+                                            "name": "百货"
+                                        },
+                                        {
+                                            "name": "超市"
+                                        },
+                                        {
+                                            "name": "便利店",
+                                            "children": [
+                                                {
+                                                    "name": "主要地点",
+                                                    "children": [
+                                                        {
+                                                            "name": "美国",
+                                                            "children": [
+                                                                {
+                                                                    "name": "7-11"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "日本",
+                                                            "children": [
+                                                                {
+                                                                    "name": "7-11"
+                                                                }
+                                                            ]
+                                                        },
+                                                        {
+                                                            "name": "台湾",
+                                                            "children": [
+                                                                {
+                                                                    "name": "青年商社"
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "主要类型",
+                                                    "children": [
+                                                        {
+                                                            "name": "加油站便利店"
+                                                        },
+                                                        {
+                                                            "name": "传统便利店"
+                                                        },
+                                                        {
+                                                            "name": "无人便利店",
+                                                            "children": [
+                                                                {
+                                                                    "name": "美国",
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "Scan&Go模式",
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "沃尔玛"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "name": "AmazonGo",
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "亚马逊"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "瑞典",
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "Ntraffa"
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "日本",
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "电子标签",
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "罗森便利店"
+                                                                                }
+                                                                            ]
+                                                                        },
+                                                                        {
+                                                                            "name": "无人收银",
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "罗森便利店&松下"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "韩国",
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "手付系统",
+                                                                            "children": [
+                                                                                {
+                                                                                    "name": "7-11高端店"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                },
+                                                                {
+                                                                    "name": "中国",
+                                                                    "children": [
+                                                                        {
+                                                                            "name": "缤果盒子"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "行业环境",
+                                    "children": [
+                                        {
+                                            "name": "经济环境",
+                                            "children": [
+                                                {
+                                                    "name": "GDP"
+                                                },
+                                                {
+                                                    "name": "GDP与便利店关系"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "社会环境",
+                                            "children": [
+                                                {
+                                                    "name": "中产阶级"
+                                                },
+                                                {
+                                                    "name": "老龄化"
+                                                },
+                                                {
+                                                    "name": "女性劳动参与率"
+                                                },
+                                                {
+                                                    "name": "单身比例"
+                                                }
+                                            ]
+                                        }
+                                    ]
                                 }
                             ]
                         },
                         {
-                            "name": "安装",
+                            "name": "行业整体格局",
                             "children": [
                                 {
-                                    "name": "记事本软件",
+                                    "name": "产业链",
                                     "children": [
                                         {
-                                            "name": "Notepad++"
+                                            "name": "供应商",
+                                            "children": [
+                                                {
+                                                    "name": "自营品牌"
+                                                },
+                                                {
+                                                    "name": "采购"
+                                                }
+                                            ]
                                         },
                                         {
-                                            "name": "EditPlus"
+                                            "name": "物流",
+                                            "children": [
+                                                {
+                                                    "name": "B2B"
+                                                },
+                                                {
+                                                    "name": "仓库",
+                                                    "children": [
+                                                        {
+                                                            "name": "数字化仓储"
+                                                        },
+                                                        {
+                                                            "name": "冷链"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "快递"
+                                                }
+                                            ]
                                         },
                                         {
-                                            "name": "Sublime Text"
+                                            "name": "选址"
+                                        },
+                                        {
+                                            "name": "技术"
+                                        },
+                                        {
+                                            "name": "教育培训"
                                         }
                                     ]
                                 },
                                 {
-                                    "name": "服务器软件",
+                                    "name": "优势品类",
                                     "children": [
                                         {
-                                            "name": "Apache Http Server"
+                                            "name": "日化用品"
                                         },
                                         {
-                                            "name": "Tomcat"
+                                            "name": "食品饮料"
+                                        },
+                                        {
+                                            "name": "生鲜"
+                                        },
+                                        {
+                                            "name": "烟酒"
                                         }
                                     ]
                                 },
                                 {
-                                    "name": "下载D3.js"
+                                    "name": "价值取向"
+                                },
+                                {
+                                    "name": "行业现状"
                                 }
                             ]
                         },
                         {
-                            "name": "入门",
+                            "name": "主要企业",
                             "children": [
                                 {
-                                    "name": "选择集",
+                                    "name": "日本便利店",
                                     "children": [
                                         {
-                                            "name": "select"
+                                            "name": "7-11"
                                         },
                                         {
-                                            "name": "selectAll"
+                                            "name": "全家"
+                                        },
+                                        {
+                                            "name": "罗森"
                                         }
                                     ]
                                 },
                                 {
-                                    "name": "绑定数据",
+                                    "name": "欧美便利店",
                                     "children": [
                                         {
-                                            "name": "datum"
+                                            "name": "好市多"
                                         },
                                         {
-                                            "name": "data"
+                                            "name": "国内便利店"
+                                        },
+                                        {
+                                            "name": "传统便利店",
+                                            "children": [
+                                                {
+                                                    "name": "美宜佳"
+                                                },
+                                                {
+                                                    "name": "快客"
+                                                },
+                                                {
+                                                    "name": "易捷"
+                                                }
+                                            ]
                                         }
                                     ]
-                                },
-                                {
-                                    "name": "添加删除元素"
-                                },
-                                {
-                                    "name": "简单图形",
-                                    "children": [
-                                        {
-                                            "name": "柱形图"
-                                        },
-                                        {
-                                            "name": "折线图"
-                                        },
-                                        {
-                                            "name": "散点图"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "name": "比例尺"
-                                },
-                                {
-                                    "name": "生成器"
-                                },
-                                {
-                                    "name": "过渡"
                                 }
                             ]
                         },
                         {
-                            "name": "进阶",
+                            "name": "企业管理",
                             "children": [
                                 {
-                                    "name": "布局的应用",
+                                    "name": "市场营销",
                                     "children": [
                                         {
-                                            "name": "饼状图"
+                                            "name": "消费者分析"
                                         },
                                         {
-                                            "name": "树状图"
+                                            "name": "促销方式"
                                         },
                                         {
-                                            "name": "矩阵树图"
+                                            "name": "营销方式"
                                         }
                                     ]
                                 },
                                 {
-                                    "name": "地图"
+                                    "name": "经营管理"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "投融资",
+                            "children": [
+                                {
+                                    "name": "投资情况",
+                                    "children": [
+                                        {
+                                            "name": "人工智能流派"
+                                        },
+                                        {
+                                            "name": "物联网流派"
+                                        },
+                                        {
+                                            "name": "互联网流派"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "新品优选"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "技术理解",
+                            "children": [
+                                {
+                                    "name": "典型技术企业",
+                                    "children": [
+                                        {
+                                            "name": "亚马逊"
+                                        },
+                                        {
+                                            "name": "深蓝科技"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "入店"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "未来趋势",
+                            "children": [
+                                {
+                                    "name": "产品趋势",
+                                    "children": [
+                                        {
+                                            "name": "自有品牌"
+                                        },
+                                        {
+                                            "name": "深度分销"
+                                        },
+                                        {
+                                            "name": "社区大数据"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "运营趋势"
+                                },
+                                {
+                                    "name": "布局趋势"
+                                },
+                                {
+                                    "name": "行业趋势"
                                 }
                             ]
                         }
@@ -316,15 +706,22 @@
 </script>
 
 <style>
+    #graph {
+        margin-top: 100px;
+    }
+
     .node circle {
         cursor: pointer;
         fill: #fff;
         stroke: steelblue;
         stroke-width: 2px;
     }
+
     .node text {
         font-size: 12px;
+        cursor: pointer;
     }
+
     .link {
         fill: none;
         stroke: #ccc;
