@@ -4,5 +4,8 @@
 export default {
     setSearchType (state, newSearchType) {
         state.searchType = newSearchType;
+    },
+    setKey (state, newKey) {
+        state.setKey = newKey;
     }
 }

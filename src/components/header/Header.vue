@@ -5,7 +5,7 @@
         </slot>
         <slot name="right">
             <nav>
-                <ul>
+                <ul class="nav-items">
                     <li class="nav-item">
                         <x-button css="primary">登录</x-button>
                     </li>
@@ -42,7 +42,7 @@
         box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
     }
 
-    header ul {
+    .nav-items {
         display: flex;
     }
 

@@ -4,5 +4,8 @@
 export default {
     setSearchType({state, commit}) {
         commit("setSearchType", state.searchType);
+    },
+    setKey({state, commit}) {
+        commit("setKey", state.key);
     }
 }

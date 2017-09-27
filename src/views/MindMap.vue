@@ -8,6 +8,7 @@
 </template>
 
 <script>
+    import {mapMutations} from 'vuex';
     import * as d3 from 'd3';
     import Header from './../components/header/Header.vue';
     import SearchBar from './../components/search/SearchBar.vue';
@@ -33,11 +34,17 @@
                 diagonal: null
             }
         },
+        create() {
+            this.setSearchType("keyword");
+        },
         mounted() {
-            this.init();
+            this.initMap();
         },
         methods: {
-            init() {
+            ...mapMutations([
+                'setSearchType','setKey'
+            ]),
+            initMap() {
                 this.svg = d3.select("#graph")
                     .append("svg")
                     .attr("width", this.width + this.margin.right + this.margin.left)
@@ -575,6 +582,7 @@
                 this.redraw(this.root);
             },
             redraw(source) {
+                console.log('redraw');
                 const that = this;
                 /*
                 （1） 计算节点和连线的位置
@@ -603,15 +611,15 @@
                     .attr("class", "node")
                     .attr("transform", function (d) {
                         return "translate(" + source.y0 + "," + source.x0 + ")";
-                    })
-                    .on("click", function (d) {
-                        that.toggle(d);
-                        that.redraw(d);
                     });
                 enterNodes.append("circle")
                     .attr("r", 0)
                     .style("fill", function (d) {
                         return d._children ? "lightsteelblue" : "#fff";
+                    })
+                    .on("click", function (d) {
+                        that.toggle(d);
+                        that.redraw(d);
                     });
                 enterNodes.append("text")
                     .attr("x", function (d) {
@@ -624,7 +632,11 @@
                     .text(function (d) {
                         return d.name;
                     })
-                    .style("fill-opacity", 0);
+                    .style("fill-opacity", 0)
+                    .on("click", function (d) {
+                        that.setKey(d.name);
+                        console.log(that.$store.state.key);
+                    });
                 //2. 节点的 Update 部分的处理办法
                 const updateNodes = nodeUpdate.transition()
                     .duration(500)

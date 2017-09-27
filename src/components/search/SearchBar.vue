@@ -18,6 +18,10 @@
             inputWidth: {
                 type: Number,
                 default: 500
+            },
+            onSearch: {
+                type: Function,
+                default: function() {}
             }
         },
         components: {

@@ -7,7 +7,8 @@ import actions from "./actions";
 Vue.use(Vuex);
 
 const state = {
-    searchType: 'map'
+    searchType: 'map',
+    key: ''
 };
 
 export default new Vuex.Store({

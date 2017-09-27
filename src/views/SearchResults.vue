@@ -1,7 +1,15 @@
 <template>
     <div>
-        <x-header></x-header>
+        <x-header>
+            <search-bar slot="left"></search-bar>
+        </x-header>
         <main>
+            <div id="result-filter">
+                <ul>
+                    <li>推荐</li>
+                    <li>全部</li>
+                </ul>
+            </div>
             <div>找到约{{result.data.length}}条结果</div>
             <div id="content-container">
                 <div id="items-container">
@@ -11,17 +19,17 @@
                             <span>收藏</span>
                         </header>
                         <p class="item-detail" v-html="item.detail"></p>
-                        <footer>{{item.url}}</footer>
+                        <footer class="item-footer">{{item.url}}</footer>
                     </article>
                 </div>
-                <aside>
-                    <h4>推荐网站</h4>
-                    <ul>
-                        <li>Google</li>
-                        <li>百度</li>
-                        <li>区块链</li>
-                    </ul>
-                </aside>
+                <!--<aside>-->
+                    <!--<h4>推荐网站</h4>-->
+                    <!--<ul>-->
+                        <!--<li>Google</li>-->
+                        <!--<li>百度</li>-->
+                        <!--<li>区块链</li>-->
+                    <!--</ul>-->
+                <!--</aside>-->
             </div>
         </main>
     </div>
@@ -77,7 +85,11 @@
 
 <style>
     main {
-        margin: 50px 10% 0 10%;
+        margin: 100px 10% 0 10%;
+    }
+
+    #result-filter, #result-filter > ul {
+        display: flex;
     }
 
     #content-container {
@@ -106,6 +118,17 @@
     }
 
     .item-detail {
+        /*overflow: hidden;*/
+        /*white-space: nowrap;*/
+        /*text-overflow: ellipsis; !* IE/Safari *!*/
+        /*-ms-text-overflow: ellipsis;*/
+        /*-o-text-overflow: ellipsis; !* Opera *!*/
+    }
+
+    .item-footer {
+        max-width: 100%;
+        font-size: 0.5em;
+        color: green;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis; /* IE/Safari */

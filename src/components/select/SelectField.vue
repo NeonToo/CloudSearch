@@ -83,7 +83,7 @@
         background-color: #fff;
         position: absolute;
         top: 0;
-        right: 0;
+        left: 0;
         z-index: 100;
         box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
     }
