@@ -24,7 +24,7 @@
                             <h3 class="item-title">
                                 <a :href="item.url" target="_blank">{{item.title}}</a>
                             </h3>
-                            <img :src="item.stared ? './../images/favorite.png' : './../images/unfavorite.png'"
+                            <img :src="item.stared ? '/static/CloudSearch/src/images/favorite.png' : '/static/CloudSearch/src/images/unfavorite.png'"
                                  class="item-favorite"
                                  @click="onFavorite(index)">
                             <span>收藏</span>
