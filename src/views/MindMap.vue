@@ -54,7 +54,8 @@
                         type: 'keyword'
                     }
                 ],
-                keyword: ''
+                keyword: this.$store.state.key,
+                searchType: this.$store.searchType
             }
         },
         create() {

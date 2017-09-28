@@ -9,7 +9,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(rootPath, 'dist'),
-        publicPath: "dist",
+        publicPath: "/dist/",
         filename: "[name].js",
         sourceMapFilename: "[name].map"
     },
@@ -35,9 +35,9 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|jpeg)$/,
-                loader: "url-loader",
-                query: {
-                    limit: 10000
+                loader: "url-loader?limit=10000",
+                options: {
+                    publicPath: '/'
                 }
             },
             {
@@ -46,5 +46,9 @@ module.exports = {
             }
         ]
     },
-    plugins: []
+    plugins: [
+        new webpack.ProvidePlugin({
+            axios: 'axios'
+        })
+    ]
 };

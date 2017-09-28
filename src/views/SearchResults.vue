@@ -8,19 +8,22 @@
                 <button class="btn btn-primary search-btn" @click="search">搜索</button>
             </div>
         </x-header>
+        <div id="result-filter">
+            <ul id="filter">
+                <li class="filter-item" :class="{active: filter === 0}" @click="onFilter(0)">推荐</li>
+                <li class="filter-item" :class="{active: filter === 1}" @click="onFilter(1)">全部</li>
+            </ul>
+        </div>
         <main>
-            <div id="result-filter">
-                <ul>
-                    <li>推荐</li>
-                    <li>全部</li>
-                </ul>
-            </div>
-            <div>找到约{{result.data.length}}条结果</div>
+            <div>找到约{{dataset.length}}条结果</div>
             <div id="content-container">
                 <div id="items-container">
-                    <article class="item-container" v-for="item in result.data" :key="item.doc_id">
+                    <article class="item-container" v-for="(item, index) in dataset" :key="item.doc_id">
                         <header>
                             <h3 class="item-title"><a :href="item.url">{{item.title}}</a></h3>
+                            <img :src="item.stared ? './../images/favorite.png' : './../images/unfavorite.png'"
+                                 class="item-favorite"
+                                 @click="onFavorite(index)">
                             <span>收藏</span>
                         </header>
                         <p class="item-detail" v-html="item.detail"></p>
@@ -41,7 +44,7 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    import _ from 'lodash';
     import {mapMutations} from 'vuex';
     import Header from './../components/header/Header.vue';
     import SearchBar from './../components/search/SearchBar.vue';
@@ -56,7 +59,9 @@
         },
         data() {
             return {
+                filter: 0,
                 result: {code: 0, data: []},
+                dataset: [],
                 options: [
                     {
                         label: '思维导图',
@@ -69,7 +74,7 @@
                         type: 'keyword'
                     }
                 ],
-                keyword: ''
+                keyword: this.$store.state.key
             };
         },
         created() {
@@ -79,6 +84,24 @@
             ...mapMutations([
                 'setSearchType', 'setKey', 'submitSearchForm'
             ]),
+            onFilter(filterIndex) {
+                const that = this;
+
+                if ("" + filterIndex) {
+                    that.filter = filterIndex;
+                }
+
+                console.log(that.filter);
+                if (that.filter === 0) { // recommendation data
+                    that.dataset = _.filter(that.result.data, function (item) {
+                        return !item["from_baidu"];
+                    });
+                } else {
+                    that.dataset = that.result.data;
+                }
+
+                return this.dataset;
+            },
             search() {
                 console.log(this.keyword);
                 if (this.keyword) {
@@ -118,6 +141,7 @@
                                 const data = oRes.data;
                                 if (data.code !== 0 && data.data.length > 0) {
                                     that.result = oRes.data;
+                                    that.dataset = that.onFilter();
                                 }
                             }
                         })
@@ -125,18 +149,44 @@
                             console.error(error);
                         });
                 }
+            },
+            onFavorite(index) {
+                const selectedItem = this.result.data[index];
+                const isStared = selectedItem.stared;
+
+                this.result.data[index].stared = !isStared;
             }
         }
     }
 </script>
 
 <style>
-    main {
-        margin: 100px 10% 0 10%;
-    }
-
     #result-filter, #result-filter > ul {
         display: flex;
+    }
+
+    #result-filter {
+        margin-top: 87px;
+        background-color: #f8f8f8;
+        padding: 0 108px;
+    }
+
+    .filter-item {
+        cursor: pointer;
+        padding: 10px;
+        border-bottom: 2px solid transparent;
+    }
+
+    .filter-item.active {
+        border-bottom: 2px solid #3399FF;
+    }
+
+    main {
+        margin: 10px 108px 0 108px;
+    }
+
+    .filter-item:not(:first-child) {
+        margin-left: 20px;
     }
 
     #content-container {
@@ -162,6 +212,12 @@
         text-overflow: ellipsis; /* IE/Safari */
         -ms-text-overflow: ellipsis;
         -o-text-overflow: ellipsis; /* Opera */
+    }
+
+    .item-favorite {
+        cursor: pointer;
+        position: relative;
+        top: 1px;
     }
 
     .item-detail {
