@@ -1,6 +1,8 @@
 <template>
     <div class="select-container">
-        <div class="select-field" @click="onFieldClick">{{selectedOption.label}}</div>
+        <div class="select-field" @click="onFieldClick">
+            {{label}}
+        </div>
         <ul v-show="optionShow" class="select-options">
             <li v-for="(option, index) in options" :key="index" class="select-option"
                 :class="{active: option.selected}" @click="onOptionSelect(index)">
@@ -28,8 +30,19 @@
         data() {
             return {
                 optionShow: false,
-                selectedOption: this.options[0]
+                label: this.options[0].label,
+                optionMap: {
+                    map: {
+                        label: '思维导图'
+                    },
+                    keyword: {
+                        label: '关键词'
+                    }
+                }
             }
+        },
+        created() {
+            this.label = this.optionMap[this.$store.state.searchType].label;
         },
         methods: {
             ...mapMutations([
@@ -42,13 +55,13 @@
                 const that = this;
                 const selectedOption = this.options[index];
 
-                _.forEach(that.options, function(option, index) {
+                _.forEach(that.options, function(option) {
                     option.selected = false;
                 });
                 this.options[index].selected = true;
                 this.optionShow = false;
-                this.selectedOption = selectedOption;
                 this.setSearchType(selectedOption.type);
+                this.label = this.optionMap[this.$store.state.searchType].label;
             }
         }
     }
