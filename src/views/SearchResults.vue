@@ -10,8 +10,8 @@
         </x-header>
         <div id="result-filter">
             <ul id="filter">
-                <li class="filter-item" :class="{active: filter === 0}" @click="onFilter(0)">推荐</li>
-                <li class="filter-item" :class="{active: filter === 1}" @click="onFilter(1)">全部</li>
+                <li class="filter-item" :class="{'active': filter === 'r'}" @click="onFilter('r')">推荐</li>
+                <li class="filter-item" :class="{'active': filter === 'a'}" @click="onFilter('a')">全部</li>
             </ul>
         </div>
         <main>
@@ -20,7 +20,9 @@
                 <div id="items-container">
                     <article class="item-container" v-for="(item, index) in dataset" :key="item.doc_id">
                         <header>
-                            <h3 class="item-title"><a :href="item.url">{{item.title}}</a></h3>
+                            <h3 class="item-title">
+                                <a :href="item.url" target="_blank">{{item.title}}</a>
+                            </h3>
                             <img :src="item.stared ? './../images/favorite.png' : './../images/unfavorite.png'"
                                  class="item-favorite"
                                  @click="onFavorite(index)">
@@ -59,7 +61,7 @@
         },
         data() {
             return {
-                filter: 0,
+                filter: 'r',
                 result: {code: 0, data: []},
                 dataset: [],
                 options: [
@@ -78,6 +80,7 @@
             };
         },
         created() {
+            console.log(this.$store.state.key);
             this.getResults();
         },
         methods: {
@@ -87,12 +90,11 @@
             onFilter(filterIndex) {
                 const that = this;
 
-                if ("" + filterIndex) {
+                if (filterIndex) {
                     that.filter = filterIndex;
                 }
 
-                console.log(that.filter);
-                if (that.filter === 0) { // recommendation data
+                if (that.filter === 'r') { // recommendation data
                     that.dataset = _.filter(that.result.data, function (item) {
                         return !item["from_baidu"];
                     });
@@ -103,7 +105,6 @@
                 return this.dataset;
             },
             search() {
-                console.log(this.keyword);
                 if (this.keyword) {
                     const searchType = this.$store.state.searchType;
 
@@ -116,39 +117,47 @@
                             path: '/map'
                         });
                     } else { // keyword search
-                        this.$router.push({
-                            path: '/results',
-                            query: {
-                                key: this.keyword
-                            }
-                        });
+                        this.getResults(this.keyword);
+//                        this.$router.push({
+//                            path: '/results',
+//                            query: {
+//                                key: this.keyword
+//                            }
+//                        });
                     }
                 }
             },
-            getResults() {
+            getResults(keyword) {
                 const that = this;
-                const query = this.$route.query;
 
-                if (query && query.key) {
-                    this.key = query.key;
-                    axios.get('/searchpp/search', {
-                        params: {
-                            key: that.key
+                if (keyword) { // search in current page
+                    this.key = keyword;
+                } else {
+                    const query = this.$route.query;
+
+                    if (query && query.key) {
+                        this.key = query.key;
+                    }
+                }
+
+                axios.get('/searchpp/search', {
+                    params: {
+                        key: that.key
+                    }
+                })
+                    .then(function (oRes) {
+                        if (oRes) {
+                            const data = oRes.data;
+                            if (data.code !== 0 && data.data.length > 0) {
+                                that.result = oRes.data;
+                                that.dataset = that.onFilter();
+                            }
                         }
                     })
-                        .then(function (oRes) {
-                            if (oRes) {
-                                const data = oRes.data;
-                                if (data.code !== 0 && data.data.length > 0) {
-                                    that.result = oRes.data;
-                                    that.dataset = that.onFilter();
-                                }
-                            }
-                        })
-                        .catch(function (error) {
-                            console.error(error);
-                        });
-                }
+                    .catch(function (error) {
+                        console.error(error);
+                    });
+
             },
             onFavorite(index) {
                 const selectedItem = this.result.data[index];
