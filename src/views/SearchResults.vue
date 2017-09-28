@@ -1,7 +1,12 @@
 <template>
     <div>
         <x-header>
-            <search-bar slot="left"></search-bar>
+            <!--<search-bar slot="left"></search-bar>-->
+            <div slot="left">
+                <select-field :options="options"></select-field>
+                <input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">
+                <button class="btn btn-primary search-btn" @click="search">搜索</button>
+            </div>
         </x-header>
         <main>
             <div id="result-filter">
@@ -23,12 +28,12 @@
                     </article>
                 </div>
                 <!--<aside>-->
-                    <!--<h4>推荐网站</h4>-->
-                    <!--<ul>-->
-                        <!--<li>Google</li>-->
-                        <!--<li>百度</li>-->
-                        <!--<li>区块链</li>-->
-                    <!--</ul>-->
+                <!--<h4>推荐网站</h4>-->
+                <!--<ul>-->
+                <!--<li>Google</li>-->
+                <!--<li>百度</li>-->
+                <!--<li>区块链</li>-->
+                <!--</ul>-->
                 <!--</aside>-->
             </div>
         </main>
@@ -37,24 +42,66 @@
 
 <script>
     import axios from 'axios';
+    import {mapMutations} from 'vuex';
     import Header from './../components/header/Header.vue';
     import SearchBar from './../components/search/SearchBar.vue';
+    import SelectField from './../components/select/SelectField.vue';
+    import Button from './../components/button/Button.vue';
 
     export default {
         components: {
             'x-header': Header,
-            SearchBar
+            SelectField,
+            'x-button': Button,
         },
         data() {
             return {
-                key: '',
-                result: {code: 0, data: []}
+                result: {code: 0, data: []},
+                options: [
+                    {
+                        label: '思维导图',
+                        selected: true,
+                        type: 'map'
+                    },
+                    {
+                        label: '关键词',
+                        selected: false,
+                        type: 'keyword'
+                    }
+                ],
+                keyword: ''
             };
         },
         created() {
             this.getResults();
         },
         methods: {
+            ...mapMutations([
+                'setSearchType', 'setKey', 'submitSearchForm'
+            ]),
+            search() {
+                console.log(this.keyword);
+                if (this.keyword) {
+                    const searchType = this.$store.state.searchType;
+
+                    this.submitSearchForm({
+                        searchType: searchType,
+                        key: this.keyword
+                    });
+                    if (searchType === 'map') { // mind-map search
+                        this.$router.push({
+                            path: '/map'
+                        });
+                    } else { // keyword search
+                        this.$router.push({
+                            path: '/results',
+                            query: {
+                                key: this.keyword
+                            }
+                        });
+                    }
+                }
+            },
             getResults() {
                 const that = this;
                 const query = this.$route.query;
@@ -67,9 +114,9 @@
                         }
                     })
                         .then(function (oRes) {
-                            if(oRes) {
+                            if (oRes) {
                                 const data = oRes.data;
-                                if(data.code !== 0 && data.data.length > 0) {
+                                if (data.code !== 0 && data.data.length > 0) {
                                     that.result = oRes.data;
                                 }
                             }

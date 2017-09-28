@@ -2,7 +2,7 @@
     <div>
         <form @submit.prevent="search">
             <select-field :options="options"></select-field>
-            <input type="text" class="search-input" v-model="key" placeholder="搜索" autocomplete="off"
+            <input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off"
                    :style="{width: inputWidth + 'px'}">
             <x-button type="submit" class="search-btn" css="primary">搜索</x-button>
         </form>
@@ -10,6 +10,7 @@
 </template>
 
 <script>
+    import {mapState, mapMutations} from 'vuex';
     import SelectField from './../select/SelectField.vue';
     import Button from './../button/Button.vue';
 
@@ -21,7 +22,8 @@
             },
             onSearch: {
                 type: Function,
-                default: function() {}
+                default: function () {
+                }
             }
         },
         components: {
@@ -42,14 +44,24 @@
                         type: 'keyword'
                     }
                 ],
-                key: ''
+                keyword: ''
             }
         },
+        computed: {
+//            keyword: 'key'
+        },
         methods: {
+            ...mapMutations([
+                'submitSearchForm'
+            ]),
             search() {
-                if (this.key) {
+                if (this.keyword) {
                     const searchType = this.$store.state.searchType;
 
+                    this.submitSearchForm({
+                        searchType: searchType,
+                        key: this.keyword
+                    });
                     if (searchType === 'map') { // mind-map search
                         this.$router.push({
                             path: '/map'
@@ -58,7 +70,7 @@
                         this.$router.push({
                             path: '/results',
                             query: {
-                                key: this.key
+                                key: this.keyword
                             }
                         });
                     }

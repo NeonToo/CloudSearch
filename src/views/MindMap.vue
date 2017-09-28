@@ -1,7 +1,14 @@
 <template>
     <div>
         <x-header>
-            <search-bar slot="left"></search-bar>
+            <!--<search-bar slot="left"></search-bar>-->
+            <!--<form @submit.prevent="search" slot="left">-->
+            <div slot="left">
+                <select-field :options="options"></select-field>
+                <input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">
+                <button class="btn btn-primary search-btn" @click="search">搜索</button>
+            </div>
+            <!--</form>-->
         </x-header>
         <main id="graph"></main>
     </div>
@@ -12,11 +19,14 @@
     import * as d3 from 'd3';
     import Header from './../components/header/Header.vue';
     import SearchBar from './../components/search/SearchBar.vue';
+    import SelectField from './../components/select/SelectField.vue';
+    import Button from './../components/button/Button.vue';
 
     export default {
         components: {
             'x-header': Header,
-            SearchBar
+            SelectField,
+            'x-button': Button
         },
         data() {
             return {
@@ -31,7 +41,20 @@
                 root: null,
                 svg: null,
                 tree: null,
-                diagonal: null
+                diagonal: null,
+                options: [
+                    {
+                        label: '思维导图',
+                        selected: true,
+                        type: 'map'
+                    },
+                    {
+                        label: '关键词',
+                        selected: false,
+                        type: 'keyword'
+                    }
+                ],
+                keyword: ''
             }
         },
         create() {
@@ -42,8 +65,31 @@
         },
         methods: {
             ...mapMutations([
-                'setSearchType','setKey'
+                'setSearchType', 'setKey', 'submitSearchForm'
             ]),
+            search() {
+                console.log(this.keyword);
+                if (this.keyword) {
+                    const searchType = this.$store.state.searchType;
+
+                    this.submitSearchForm({
+                        searchType: searchType,
+                        key: this.keyword
+                    });
+                    if (searchType === 'map') { // mind-map search
+                        this.$router.push({
+                            path: '/map'
+                        });
+                    } else { // keyword search
+                        this.$router.push({
+                            path: '/results',
+                            query: {
+                                key: this.keyword
+                            }
+                        });
+                    }
+                }
+            },
             initMap() {
                 this.svg = d3.select("#graph")
                     .append("svg")
@@ -634,7 +680,9 @@
                     })
                     .style("fill-opacity", 0)
                     .on("click", function (d) {
-                        that.setKey(d.name);
+                        that.keyword = `便利店 ${d.name}`;
+                        that.setKey(`便利店 ${d.name}`);
+                        console.log(that.keyword);
                         console.log(that.$store.state.key);
                     });
                 //2. 节点的 Update 部分的处理办法
@@ -738,5 +786,37 @@
         fill: none;
         stroke: #ccc;
         stroke-width: 1.5px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        text-align: center;
+        white-space: nowrap;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-image: none;
+        border: 1px solid transparent;
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #3399FF;
+    }
+
+    .search-input {
+        width: 500px;
+        padding: 10px 5px;
+    }
+
+    .search-btn {
+        height: 45px;
+        border-radius: 2px;
+        position: relative;
+        top: -1px;
+        left: -6px;
     }
 </style>

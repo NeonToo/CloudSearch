@@ -15,7 +15,7 @@ input {
     color: inherit;
 }
 
-ul {
+ul, button {
     margin: 0;
     padding: 0;
 }

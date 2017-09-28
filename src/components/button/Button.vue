@@ -20,11 +20,6 @@
 </script>
 
 <style>
-    button {
-        margin: 0;
-        padding: 0;
-    }
-
     .btn {
         padding: 6px 12px;
         text-align: center;

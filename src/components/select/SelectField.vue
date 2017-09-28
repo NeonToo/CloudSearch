@@ -95,4 +95,17 @@
     .select-option.active {
         color: #3399FF;
     }
+
+    .search-input {
+        width: 500px;
+        padding: 10px 5px;
+    }
+
+    .search-btn {
+        height: 45px;
+        border-radius: 2px;
+        position: relative;
+        top: -1px;
+        left: -6px;
+    }
 </style>

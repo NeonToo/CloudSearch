@@ -7,5 +7,8 @@ export default {
     },
     setKey({state, commit}) {
         commit("setKey", state.key);
+    },
+    submitSearchForm({state, commit}) {
+        commit("setKey", state.key);
     }
 }

@@ -6,6 +6,10 @@ export default {
         state.searchType = newSearchType;
     },
     setKey (state, newKey) {
-        state.setKey = newKey;
+        state.key = newKey;
+    },
+    submitSearchForm(state, newSearch) {
+        state.searchType = newSearch.searchType;
+        state.key = newSearch.key;
     }
 }
