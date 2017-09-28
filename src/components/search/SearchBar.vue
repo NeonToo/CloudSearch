@@ -47,9 +47,6 @@
                 keyword: ''
             }
         },
-        computed: {
-//            keyword: 'key'
-        },
         methods: {
             ...mapMutations([
                 'submitSearchForm'
