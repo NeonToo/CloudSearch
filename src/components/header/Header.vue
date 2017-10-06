@@ -7,10 +7,10 @@
             <nav>
                 <ul class="nav-items">
                     <li class="nav-item">
-                        <x-button css="primary">登录</x-button>
+                        <i-button type="primary">登录</i-button>
                     </li>
                     <li class="nav-item">
-                        <x-button>注册</x-button>
+                        <i-button type="ghost">注册</i-button>
                     </li>
                 </ul>
             </nav>
@@ -19,12 +19,8 @@
 </template>
 
 <script>
-    import Button from './../button/Button.vue';
 
     export default {
-        components: {
-            'x-button': Button
-        }
     }
 </script>
 
@@ -32,7 +28,7 @@
     #header {
         display: flex;
         justify-content: space-between;
-        padding: 20px;
+        padding: 10px 20px;
         position: fixed;
         top: 0;
         right: 0;

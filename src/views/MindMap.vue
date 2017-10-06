@@ -1,13 +1,13 @@
 <template>
     <div>
         <x-header>
-            <!--<search-bar slot="left"></search-bar>-->
-            <form @submit.prevent="search" slot="left">
-                <select-field :options="options"></select-field>
-                <input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">
-                <!--<button class="btn btn-primary search-btn" @click="search">搜索</button>-->
-                <button type="submit" class="btn btn-primary search-btn">搜索</button>
-            </form>
+            <search-bar slot="left"></search-bar>
+            <!--<form @submit.prevent="search" slot="left">-->
+                <!--<select-field :options="options"></select-field>-->
+                <!--<input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">-->
+                <!--&lt;!&ndash;<button class="btn btn-primary search-btn" @click="search">搜索</button>&ndash;&gt;-->
+                <!--<button type="submit" class="btn btn-primary search-btn">搜索</button>-->
+            <!--</form>-->
         </x-header>
         <main id="graph"></main>
     </div>
@@ -25,7 +25,8 @@
         components: {
             'x-header': Header,
             SelectField,
-            'x-button': Button
+            'x-button': Button,
+            SearchBar
         },
         data() {
             return {

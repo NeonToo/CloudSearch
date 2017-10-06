@@ -26,6 +26,10 @@ module.exports = {
                 use: ["style-loader", "css-loader"]
             },
             {
+                test: /iview.src.*?js$/,
+                loader: 'babel-loader'
+            },
+            {
                 test: /\.js$/,
                 loader: "babel-loader",
                 exclude: /node_modules/,
@@ -34,7 +38,7 @@ module.exports = {
                 }
             },
             {
-                test: /\.(png|jpg|jpeg)$/,
+                test: /\.(png|jpg?g|woff|svg|eot|ttf|otf)$/,
                 loader: "url-loader?limit=10000",
                 options: {
                     publicPath: '/'

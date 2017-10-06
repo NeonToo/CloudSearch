@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 const state = {
     searchType: 'map',
-    key: ''
+    keyword: ''
 };
 
 export default new Vuex.Store({

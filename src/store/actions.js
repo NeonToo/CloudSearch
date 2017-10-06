@@ -5,10 +5,10 @@ export default {
     setSearchType({state, commit}) {
         commit("setSearchType", state.searchType);
     },
-    setKey({state, commit}) {
-        commit("setKey", state.key);
+    setKeyword({state, commit}) {
+        commit("setKeyword", state.keyword);
     },
     submitSearchForm({state, commit}) {
-        commit("setKey", state.key);
+        commit("setKey", state.keyword);
     }
 }

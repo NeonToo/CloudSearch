@@ -2,7 +2,7 @@ export default {
     searchType: (state) => {
         return state.searchType;
     },
-    key: (state) => {
-        return state.key;
+    keyword: (state) => {
+        return state.keyword;
     }
 }

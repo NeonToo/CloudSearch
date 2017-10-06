@@ -1,13 +1,13 @@
 <template>
     <div>
         <x-header>
-            <!--<search-bar slot="left"></search-bar>-->
-            <form slot="left" @submit.prevent="search">
-                <select-field :options="options"></select-field>
-                <input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">
-                <!--<button class="btn btn-primary search-btn" @click="search">搜索</button>-->
-                <button type="submit" class="btn btn-primary search-btn">搜索</button>
-            </form>
+            <search-bar slot="left"></search-bar>
+            <!--<form slot="left" @submit.prevent="search">-->
+                <!--<select-field :options="options"></select-field>-->
+                <!--<input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">-->
+                <!--&lt;!&ndash;<button class="btn btn-primary search-btn" @click="search">搜索</button>&ndash;&gt;-->
+                <!--<button type="submit" class="btn btn-primary search-btn">搜索</button>-->
+            <!--</form>-->
         </x-header>
         <div id="result-filter">
             <ul id="filter">
@@ -59,6 +59,7 @@
             'x-header': Header,
             SelectField,
             'x-button': Button,
+            SearchBar
         },
         data() {
             return {
@@ -77,11 +78,10 @@
                         type: 'keyword'
                     }
                 ],
-                keyword: this.$store.state.key
+                keyword: this.$store.state.keyword
             };
         },
         created() {
-            console.log(this.$store.state.key);
             this.getResults();
         },
         methods: {
@@ -111,7 +111,7 @@
 
                     this.submitSearchForm({
                         searchType: searchType,
-                        key: this.keyword
+                        keyword: this.keyword
                     });
                     if (searchType === 'map') { // mind-map search
                         this.$router.push({
