@@ -1,14 +1,14 @@
 <template>
     <div>
-        <x-header>
-            <search-bar slot="left"></search-bar>
+        <!--<x-header>-->
+            <!--<search-bar slot="left"></search-bar>-->
             <!--<form slot="left" @submit.prevent="search">-->
                 <!--<select-field :options="options"></select-field>-->
                 <!--<input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">-->
                 <!--&lt;!&ndash;<button class="btn btn-primary search-btn" @click="search">搜索</button>&ndash;&gt;-->
                 <!--<button type="submit" class="btn btn-primary search-btn">搜索</button>-->
             <!--</form>-->
-        </x-header>
+        <!--</x-header>-->
         <div id="result-filter">
             <ul id="filter">
                 <li class="filter-item" :class="{'active': filter === 'r'}" @click="onFilter('r')">推荐</li>

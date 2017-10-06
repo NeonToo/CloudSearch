@@ -1,16 +1,16 @@
 <template>
-    <div>
-        <x-header>
-            <search-bar slot="left"></search-bar>
+    <!--<div>-->
+        <!--<x-header>-->
+            <!--<search-bar slot="left"></search-bar>-->
             <!--<form @submit.prevent="search" slot="left">-->
                 <!--<select-field :options="options"></select-field>-->
                 <!--<input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">-->
                 <!--&lt;!&ndash;<button class="btn btn-primary search-btn" @click="search">搜索</button>&ndash;&gt;-->
                 <!--<button type="submit" class="btn btn-primary search-btn">搜索</button>-->
             <!--</form>-->
-        </x-header>
+        <!--</x-header>-->
         <main id="graph"></main>
-    </div>
+    <!--</div>-->
 </template>
 
 <script>
@@ -54,7 +54,7 @@
                         type: 'keyword'
                     }
                 ],
-                keyword: this.$store.state.key,
+                keyword: this.$store.state.keyword,
                 searchType: this.$store.searchType
             }
         },
@@ -66,31 +66,8 @@
         },
         methods: {
             ...mapMutations([
-                'setSearchType', 'setKey', 'submitSearchForm'
+                'setSearchType', 'setKeyword', 'submitSearchForm'
             ]),
-            search() {
-                console.log(this.keyword);
-                if (this.keyword) {
-                    const searchType = this.$store.state.searchType;
-
-                    this.submitSearchForm({
-                        searchType: searchType,
-                        key: this.keyword
-                    });
-                    if (searchType === 'map') { // mind-map search
-                        this.$router.push({
-                            path: '/map'
-                        });
-                    } else { // keyword search
-                        this.$router.push({
-                            path: '/results',
-                            query: {
-                                key: this.keyword
-                            }
-                        });
-                    }
-                }
-            },
             initMap() {
                 this.svg = d3.select("#graph")
                     .append("svg")
@@ -184,8 +161,11 @@
                     })
                     .style("fill-opacity", 0)
                     .on("click", function (d) {
-                        that.keyword = `便利店 ${d.name}`;
-                        that.setKey(`便利店 ${d.name}`);
+//                        that.keyword = `便利店 ${d.name}`;
+                        that.setSearchType('keyword');
+                        that.setKeyword(`便利店 ${d.name}`);
+                        console.log(that.$store.state.searchType);
+                        console.log(that.$store.state.keyword);
                     });
                 //2. 节点的 Update 部分的处理办法
                 const updateNodes = nodeUpdate.transition()
@@ -203,7 +183,7 @@
                 //3. 节点的 Exit 部分的处理办法
                 const exitNodes = nodeExit.transition()
                     .duration(500)
-                    .attr("transform", function (d) {
+                    .attr("transform", function () {
                         return "translate(" + source.y + "," + source.x + ")";
                     })
                     .remove();

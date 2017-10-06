@@ -55,11 +55,12 @@
                         selected: false,
                         type: 'keyword'
                     }
-                ],
-                keyword: this.$store.state.keyword,
-                searchType: this.$store.state.searchType
+                ]
             }
         },
+        computed: mapState([
+            'searchType', 'keyword'
+        ]),
         methods: {
             ...mapMutations([
                 'setSearchType', 'submitSearchForm'
