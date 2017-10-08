@@ -1,24 +1,25 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import App from './App.vue';
 import Home from './views/Home.vue';
-import MainContainer from './views/MainContainer.vue';
 import SearchResults from './views/SearchResults.vue';
 import MindMap from './views/MindMap.vue';
+import Login from './views/Login.vue';
+import SignUp from './views/SignUp.vue';
 
 Vue.use(VueRouter);
 
 let routes = [
     {
-        path: '/home',
-        name: 'home',
-        component: Home,
-        meta: {title: 'Cloud Search'}
-    },
-    {
         path: '/',
-        name: 'container',
-        component: MainContainer,
+        name: 'app',
+        component: App,
         children: [
+            {
+                path: '/home',
+                name: 'home',
+                component: Home
+            },
             {
                 path: '/results',
                 name: 'results',
@@ -30,6 +31,16 @@ let routes = [
                 component: MindMap
             }
         ]
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: Login
+    },
+    {
+        path: '/signup',
+        name: 'signup',
+        component: SignUp
     }
 ];
 const router = new VueRouter({

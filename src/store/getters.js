@@ -1,4 +1,7 @@
 export default {
+    username: (state) => {
+        return state.username;
+    },
     searchType: (state) => {
         return state.searchType;
     },

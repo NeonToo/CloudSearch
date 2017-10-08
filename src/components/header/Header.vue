@@ -5,9 +5,24 @@
         </slot>
         <slot name="right">
             <nav>
-                <ul class="nav-items">
+                <ul v-if="username">
+                    <li>
+                        <dropdown @on-click="onItemSelect">
+                            <i-button type="primary">
+                                {{username}}
+                                <Icon type="arrow-down-b"></Icon>
+                            </i-button>
+                            <dropdown-menu slot="list">
+                                <dropdown-item>个人中心</dropdown-item>
+                                <dropdown-item>我的收藏</dropdown-item>
+                                <dropdown-item name="logout" divided>退出</dropdown-item>
+                            </dropdown-menu>
+                        </dropdown>
+                    </li>
+                </ul>
+                <ul v-else class="nav-items">
                     <li class="nav-item">
-                        <i-button type="primary">登录</i-button>
+                        <i-button type="primary" @click="login">登录</i-button>
                     </li>
                     <li class="nav-item">
                         <i-button type="ghost">注册</i-button>
@@ -19,8 +34,37 @@
 </template>
 
 <script>
+    import {mapMutations} from 'vuex';
 
     export default {
+        computed: {
+            username: {
+                get: function () {
+                    return this.$store.state.username;
+                },
+                set: function (newValue) {
+                    this.$store.state.username = newValue;
+                }
+            }
+        },
+        methods: {
+            ...mapMutations([
+                'setUser'
+            ]),
+            login() {
+                this.setUser('username');
+            },
+            onItemSelect(name) {
+                switch (name) {
+                    case 'logout':
+                        this.logout();
+                        break;
+                }
+            },
+            logout() {
+                this.setUser('');
+            }
+        }
     }
 </script>
 

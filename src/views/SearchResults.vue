@@ -149,27 +149,28 @@
                     params: {
                         key: that.key
                     }
-                })
-                    .then(function (oRes) {
-                        if (oRes) {
-                            const data = oRes.data;
-                            if (data.code !== 0 && data.data.length > 0) {
-                                that.result = oRes.data;
-                                that.dataset = that.onFilter();
-                            }
+                }).then(function (oRes) {
+                    if (oRes) {
+                        const data = oRes.data;
+                        if (data.code !== 0 && data.data.length > 0) {
+                            that.result = oRes.data;
+                            that.dataset = that.onFilter();
                         }
-                    })
-                    .catch(function (error) {
-                        console.error(error);
-                    });
+                    }
+                }).catch(function (error) {
+                    console.error(error);
+                });
 
             },
             onStar(index) {
-                console.log('start');
-                const selectedItem = this.result.data[index];
-                const isStared = selectedItem.stared;
+                if(this.$store.state.username) {
+                    const selectedItem = this.result.data[index];
+                    const isStared = selectedItem.stared;
 
-                this.result.data[index].stared = !isStared;
+                    this.result.data[index].stared = !isStared;
+                } else {
+                    alert('请先登录！');
+                }
             }
         }
     }

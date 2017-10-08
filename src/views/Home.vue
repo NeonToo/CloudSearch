@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <x-header></x-header>
+    <!--<div>-->
+        <!--<x-header></x-header>-->
         <main id="home-main-container">
             <img src="../images/logo.png">
             <search-bar></search-bar>
         </main>
-    </div>
+    <!--</div>-->
 </template>
 
 <script>
@@ -16,11 +16,6 @@
         components: {
             'x-header': Header,
             SearchBar
-        },
-        data() {
-            return {
-                text: 'App Container'
-            };
         }
     }
 </script>
