@@ -145,6 +145,7 @@
                     }
                 }
 
+                this.$Loading.start();
                 axios.get('/searchpp/search', {
                     params: {
                         key: that.key
@@ -157,8 +158,10 @@
                             that.dataset = that.onFilter();
                         }
                     }
+                    that.$Loading.finish();
                 }).catch(function (error) {
                     console.error(error);
+                    that.$Loading.error();
                 });
 
             },
@@ -169,8 +172,25 @@
 
                     this.result.data[index].stared = !isStared;
                 } else {
-                    alert('请先登录！');
+                    this.showLoginModal();
                 }
+            },
+            showLoginModal() {
+                const that = this;
+
+                this.$Modal.confirm({
+                    title: '请先登录',
+                    content: '<p>登录后才能收藏哦</p>',
+                    okText: '登录',
+                    onOk: () => {
+                        that.$router.push({
+                            path: 'login'
+                        });
+                    },
+                    onCancel: () => {
+                        this.$Modal.remove();
+                    }
+                });
             }
         }
     }

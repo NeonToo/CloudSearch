@@ -13,7 +13,7 @@
                 {{option.label}}
             </i-option>
         </i-select>
-        <i-input size="large" type="text" v-model="keyword" placeholder="搜索" autocomplete="off"
+        <i-input size="large" type="text" v-model="keyword" placeholder="搜索" autocomplete="off" :autofocus="true"
                  :style="{width: inputWidth + 'px'}" icon="ios-search" @on-click="search"></i-input>
         <!--<i-button html-type="submit" type="primary" class="search-btn" icon="ios-search"></i-button>-->
     </form>
@@ -64,7 +64,7 @@
                     return this.$store.state.searchType;
                 },
                 set: function (newValue) {
-                    this.$store.state.searchType = newValue;
+                    this.setSearchType(newValue);
                 }
             },
             keyword: {
@@ -72,13 +72,13 @@
                     return this.$store.state.keyword;
                 },
                 set: function (newValue) {
-                    this.$store.state.keyword = newValue;
+                    this.setKeyword(newValue);
                 }
             }
         },
         methods: {
             ...mapMutations([
-                'setSearchType', 'submitSearchForm'
+                'setSearchType', 'setKeyword', 'submitSearchForm'
             ]),
             onOptionChange(selectedValue) {
                 this.setSearchType(selectedValue);

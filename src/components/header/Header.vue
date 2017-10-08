@@ -43,7 +43,7 @@
                     return this.$store.state.username;
                 },
                 set: function (newValue) {
-                    this.$store.state.username = newValue;
+                    this.setUser(newValue);
                 }
             }
         },
