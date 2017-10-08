@@ -1,13 +1,13 @@
 <template>
     <div>
         <!--<x-header>-->
-            <!--<search-bar slot="left"></search-bar>-->
-            <!--<form slot="left" @submit.prevent="search">-->
-                <!--<select-field :options="options"></select-field>-->
-                <!--<input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">-->
-                <!--&lt;!&ndash;<button class="btn btn-primary search-btn" @click="search">搜索</button>&ndash;&gt;-->
-                <!--<button type="submit" class="btn btn-primary search-btn">搜索</button>-->
-            <!--</form>-->
+        <!--<search-bar slot="left"></search-bar>-->
+        <!--<form slot="left" @submit.prevent="search">-->
+        <!--<select-field :options="options"></select-field>-->
+        <!--<input type="text" class="search-input" v-model="keyword" placeholder="搜索" autocomplete="off">-->
+        <!--&lt;!&ndash;<button class="btn btn-primary search-btn" @click="search">搜索</button>&ndash;&gt;-->
+        <!--<button type="submit" class="btn btn-primary search-btn">搜索</button>-->
+        <!--</form>-->
         <!--</x-header>-->
         <div id="result-filter">
             <ul id="filter">
@@ -22,14 +22,18 @@
                     <article class="item-container" v-for="(item, index) in dataset" :key="item.doc_id">
                         <header>
                             <h3 class="item-title">
-                                <a :href="item.url" target="_blank">{{item.title}}</a>
+                                <a :href="item.url" target="_blank" class="item-url">{{item.title}}</a>
                             </h3>
-                            <img :src="item.stared ? '/static/CloudSearch/src/images/favorite.png' : '/static/CloudSearch/src/images/unfavorite.png'"
-                                 class="item-favorite"
-                                 @click="onFavorite(index)">
+                            <!--<img :src="item.stared ? '/static/CloudSearch/src/images/favorite.png' : '/static/CloudSearch/src/images/unfavorite.png'"-->
+                            <!--class="item-favorite"-->
+                            <!--@click="onFavorite(index)">-->
+                            <icon :type="item.stared ? 'android-star' : 'android-star-outline'" size="23"
+                                  :color="item.stared ? 'yellow' : '#49505b'" class="item-star"
+                                  @click.native="onStar(index)"></icon>
                             <span>收藏</span>
                         </header>
-                        <p class="item-detail" v-html="item.detail"></p>
+                        <p class=" item-detail
+                            " v-html="item.detail"></p>
                         <footer class="item-footer">{{item.url}}</footer>
                     </article>
                 </div>
@@ -160,7 +164,8 @@
                     });
 
             },
-            onFavorite(index) {
+            onStar(index) {
+                console.log('start');
                 const selectedItem = this.result.data[index];
                 const isStared = selectedItem.stared;
 
@@ -224,7 +229,11 @@
         -o-text-overflow: ellipsis; /* Opera */
     }
 
-    .item-favorite {
+    .item-url:hover {
+        text-decoration: underline;
+    }
+
+    .item-star {
         cursor: pointer;
         position: relative;
         top: 1px;

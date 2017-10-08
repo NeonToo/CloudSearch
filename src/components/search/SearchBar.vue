@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import {mapState, mapMutations} from 'vuex';
+    import {mapMutations} from 'vuex';
     import SelectField from './../select/SelectField.vue';
     import ISelect from "../../../node_modules/iview/src/components/select/select.vue";
 
@@ -58,9 +58,24 @@
                 ]
             }
         },
-        computed: mapState([
-            'searchType', 'keyword'
-        ]),
+        computed: {
+            searchType: {
+                get: function () {
+                    return this.$store.state.searchType;
+                },
+                set: function (newValue) {
+                    this.$store.state.searchType = newValue;
+                }
+            },
+            keyword: {
+                get: function () {
+                    return this.$store.state.keyword;
+                },
+                set: function (newValue) {
+                    this.$store.state.keyword = newValue;
+                }
+            }
+        },
         methods: {
             ...mapMutations([
                 'setSearchType', 'submitSearchForm'
